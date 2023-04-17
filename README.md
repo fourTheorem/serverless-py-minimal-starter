@@ -1,4 +1,4 @@
-# Serverless Minimal Template
+# Serverless Python Minimal Template
 
 This is a minimal Serverless Framework Python template that provides a simple starting point for building serverless applications with Python.
 
