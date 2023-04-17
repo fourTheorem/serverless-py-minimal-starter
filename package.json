@@ -1,0 +1,15 @@
+{
+  "name": "serverless-minimal-starter",
+  "version": "1.0.0",
+  "description": "Minimal template for Python based Serverless Framework projects",
+  "scripts": {},
+  "keywords": [],
+  "author": "fourTheorem",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "serverless": "^3.30.1",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-python-requirements": "^6.0.0",
+    "serverless-slic-watch-plugin": "^2.1.2"
+  }
+}

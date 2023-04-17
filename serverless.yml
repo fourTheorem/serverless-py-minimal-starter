@@ -1,0 +1,48 @@
+service: serverless-minimal  # Change this
+frameworkVersion: '3'
+
+plugins:
+  - serverless-slic-watch-plugin
+  - serverless-python-requirements
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  stackTags:
+    # Replace these with correct values and add your own tags
+    Project: AlanParsons
+    RepoUrl: https://github.com/fourTheorem/serverless-minimal-starter
+  environment:
+    POWERTOOLS_METRICS_NAMESPACE: ${self:service}
+    POWERTOOLS_SERVICE_NAME: the-service  # Change this
+    BUCKET_NAME: !Ref DataBucket
+
+custom:
+  pythonRequirements:
+    dockerizePip: true  # Required if you use native dependencies
+    slim: true  # Strips large dependencies
+  slicWatch:
+    enabled: true
+
+functions:
+  hello:
+    handler: functions/hello_handler.handle_event
+    layers:
+      - arn:aws:lambda:${aws:region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:28
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+        Resource: !Sub 'arn:aws:s3:::${DataBucket}/latest_advice.json'
+
+resources:
+  Resources:
+    DataBucket:
+      Type: AWS::S3::Bucket
+
+  Outputs:
+    BucketName:
+      Value: !Ref DataBucket
